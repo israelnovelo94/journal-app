@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const JournalEntry = () => {
+export const JournalEntry = ({id}) => {
   return (
     <div className='journal__entry pointer'>
         <div 
@@ -18,7 +18,7 @@ export const JournalEntry = () => {
             </p>
 
             <p className='journal__entry-content'>
-                Aliquip proident tempor et esse culpa consequat amet ea do culpa sit Lorem.
+                {id}
             </p>
         </div>
 
