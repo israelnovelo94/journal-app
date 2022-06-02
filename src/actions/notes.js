@@ -20,6 +20,8 @@ export const startNewNote = () => {
     }
 }
 
+
+
 export const activeNote = (id, note) => {
     return {
         type: types.notesActive,
@@ -42,5 +44,23 @@ export const setNotes = (notes) => {
     return {
         type: types.notesLoad,
         payload: notes
+    }
+}
+
+export const startSaveNote = ( note ) => {
+
+    return async (dispatch, getState) => {
+        
+        const {uid} = getState().auth;
+
+        if(!note.url){
+            delete note.url;
+        }
+
+        const notesFirestore = {...note};
+        delete notesFirestore.id;
+
+        await db.doc(`${uid}/journal/notes/${note.id}`).update(notesFirestore);
+
     }
 }

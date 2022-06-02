@@ -9,8 +9,6 @@ export const Sidebar = () => {
 
   const {name} = useSelector(state => state.auth);
 
-  const {notes} = useSelector(state => state.notes);
-
   const handleLogout = () => {
     dispatch(startLogout());
   }
@@ -36,7 +34,7 @@ export const Sidebar = () => {
 
         </div>
 
-        <JournalEntries notes={notes}/>
+        <JournalEntries/>
         
     </aside>
   )

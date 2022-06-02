@@ -6,8 +6,8 @@ export const useForm = (initialState = {}) => {//Recibimos la estructura del obj
     // Creamos el useState que recibe el objeto 
     const [values, setValues] = useState(initialState);
 
-    const reset = () =>{
-        setValues(initialState);
+    const reset = ( newFormState = initialState) =>{
+        setValues(newFormState);
     } 
 
     //Funcion que actualiza el state

@@ -1,7 +1,31 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { activeNote } from '../../actions/notes';
+import { useForm } from '../../hooks/useForm';
 import { NotesAppBar } from './NotesAppBar'
 
 export const NoteScreen = () => {
+
+    const dispatch = useDispatch();
+    const {active:note} = useSelector( state => state.notes );
+
+    const [formValues, handleInputChange, reset] = useForm(note);
+
+    const activeId = useRef(note.id);
+    
+    useEffect(() => {
+        if(note.id !== activeId.current){
+            reset(note);
+            activeId.current = note.id;
+        }
+    } , [note, reset]);
+
+    useEffect(() => {
+      dispatch( activeNote(formValues.id, formValues) );
+    }, [formValues])
+    
+
+    const {title, body} = formValues;
   return (
     <div className='notes__main-content'>
         <NotesAppBar />
@@ -13,19 +37,29 @@ export const NoteScreen = () => {
                 placeholder='Some awesome title'
                 className='notes__title-input'
                 autoComplete='off'
+                name='title'
+                value={title}
+                onChange={handleInputChange}
             />
 
             <textarea
                 placeholder='What happend today'
                 className='notes__textarea'
+                name='body'
+                value={body}
+                onChange={handleInputChange}
             ></textarea>
 
-            <div className='notes__image'>
-                <img 
-                    src='https://images.ctfassets.net/hrltx12pl8hq/4f6DfV5DbqaQUSw0uo0mWi/6fbcf889bdef65c5b92ffee86b13fc44/shutterstock_376532611.jpg?fit=fill&w=800&h=300'
-                    alt='img'
-                />
-            </div>
+            {
+                (note.url) && (
+                    <div className='notes__image'>
+                        <img 
+                            src='https://images.ctfassets.net/hrltx12pl8hq/4f6DfV5DbqaQUSw0uo0mWi/6fbcf889bdef65c5b92ffee86b13fc44/shutterstock_376532611.jpg?fit=fill&w=800&h=300'
+                            alt='img'
+                        />
+                    </div>
+                    )
+            }
 
         </div>
     </div>
